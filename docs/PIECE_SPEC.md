@@ -22,8 +22,8 @@
     the phone is doubling the octet in parts of the harmony in real time. Not all the phones can double the quartet 
     all the time. As the piece runs, the system will select a growing random number of audience members for them to click 
     [Make a sound]. The number of audience who are allowed to do that grows as the piece goes, and at the end all 
-    participating audience plays with the octect doing tutti, and the final screen as one last bottom to select, the piece
-    goes back to where it started. 
+    participating audience plays with the octect doing tutti, and the final screen will be the same of the first screen, the 
+    piece goes back to where it started. 
 
 - What changes in the notations:
     Performers are free to use any articulations, dynamics, and rhythms to help them improvise. The only rule is that they
@@ -49,6 +49,15 @@
     chosen. The higher the percentage is, the higher possibility the represented interval appears. The actual pitches appear-
     ing on the score can be anything from a single note to all 7 notes together.
 
+    When any color is over 50%, there is 50% chance of both notes in the mapped interval added to the score, and 50% chance
+    of either one of the pitch in concern added to the score. 
+
+    In other case, both pitches of the represented interval gets added to the score. One pitch class only appear once, so 
+    the doublings is fully left out to performers. 
+     
+    Any pitch above 15% gets included. On top of that, each interval is drawn with a proportional probability equal to 
+    its vote share.
+
 - Audience will always submit their votes during the 10-15 sec count down, and once their choice is submited(I should know),
      The score updates when I trigger it from the concole. 
 
@@ -60,7 +69,8 @@
     // n = 1; n<pageNum; n++;
     1. Audience have 10-15 sec countdown to select a color button to generate notes on page n
     2. I see "Audience voting completed!" message, press X from the console to export the newly generated notation to
-    musicians' screens for them to play. Meanwhile the iPads show line n+1 plus chord n+1, with countdown for audience.
+    musicians' screens for them to play. Meanwhile the iPads show line n plus chord n, with countdown for audience to 
+    vote for pitches on the upcoming page. X can only be pressed after I see "Audience voting completed!" in my screen.
     3. The countdown ends, I wait to decide when to press X to export a new page of pitches for the iPads. 
 
     Audiences and I are not allowed to generate new pages when there are only less than 10sec left for the piece (fixed to
@@ -85,13 +95,16 @@
 
 - What "make a sound" does for audience: audience press, hold, and release for the sound to fade in, stay, and fade out. The 
     fade in and fade out should be pretty gentle curves (random between 0.25-1sec both ways).
+    
+    A tone from the phone crossfade to a new page if an audience member is holding while a page changes. If a phone was 
+    allowed on the last page but not this one and the person is still holding, the pitch fades out as if they just release it.
 
 - Pitch range:
     If a pitch is lower than B3 in the notation, the phone's pitch rounds back up an octave. The upperbound for phone pitch
     is C7. 
 
     The score on iPads can show pitches between C3-C6, but the string octect is free to take the pitch and play in any 
-    octave. 
+    octave. The score, written in chorale style, should place each pitch in a fixed register.  
 
 - The players are looking at a grand staff paper with pitches in stem-less quarter notes written as chords. The number of 
     pitches showing at a time ranges from one note to 7 notes, and the players are free to select any pitch(es) while 
@@ -101,7 +114,7 @@
     choose whether they want to make a sound or not. Each screen updates randomly choose a sample of participating audience
     to give them the opportunity to make a sound if they choose to, and by second to the last score update of the piece, 
     all the participating audience will be allowed to make a sound. The sample of audience who are allowed to choose to make
-    a sound grows exponentially as the piece goes, from [5%-20%] to [80%-100%]. So there should be an automated lottery 
-    process deciding which audience's phone gets an opportunity to make a sound. The system should make sure every partici-
-    pating audience member gets at least one chance to choose to make a sound or not by the end of the piece.     
-      
+    a sound grows exponentially as the piece goes, from [5%-20%] to [80%-100%] from 4'57" to 7'30". The starting share is 
+    picked at random between [5%-20%].  So there should be an automated lottery process deciding which audience's phone 
+    gets an opportunity to make a sound. The system should make sure every participating audience member gets at least 
+    one chance to choose to make a sound or not by the end of the piece.       
