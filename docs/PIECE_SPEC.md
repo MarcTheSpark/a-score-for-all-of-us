@@ -93,6 +93,8 @@ The players are looking at grand staff paper with pitches in stem-less quarter n
 
 The score on the iPads shows pitches between C3-C6, but the string octet is free to take the pitch and play in any octave. The audience's choices only change what shows up as pitches in the form of harmonies.
 
+iPads are used in landscape orientation.
+
 ## 8. Phone sound and lottery
 
 ### 8.1 Lottery
