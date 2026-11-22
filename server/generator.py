@@ -75,6 +75,16 @@ def choose_pitches(shares):
             pitches.update((low_pitch, high_pitch))
     return pitches
 
+def get_sorted_chord(pitches, registers):
+    """Place pitches in their fixed registers and return MIDI numbers from low to high"""
+    chord = []
+    for pitch in pitches:
+        chord.append(get_midi_num(pitch, registers[pitch]))
+        
+    sorted_chord = sorted(chord) # hands back a sorted ver of chord notes
+    return sorted_chord  
+    
+
 
     
         
