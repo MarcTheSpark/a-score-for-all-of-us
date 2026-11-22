@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Score for All of Us - Score</title>
+  <link rel="icon" href="data:,">
+</head>
+<body>
+    <div id="score"></div>
+    <!-- 1. Load VexFlow -->
+    <script src="https://cdn.jsdelivr.net/npm/vexflow@5.0.0/build/cjs/vexflow-core.js"></script>
+
+    <!-- Font-loading pattern adapted from the VexFlow 5 getting-started guide:
+        https://vexflow.github.io/vexflow-examples/guides/getting-started/ -->
+    <!-- Load Bravura and Academico -->
+    <script>
+    VexFlow.loadFonts('Bravura', 'Academico').then(() => {
+      VexFlow.setFonts('Bravura', 'Academico');
+      console.log("ready");
+    });
+    </script>
+</body>
+</html>
