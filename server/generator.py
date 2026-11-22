@@ -96,9 +96,3 @@ def generate_notes(votes_count: dict[str, int], registers: dict[str, int]):
         pitches = {random.choice(DORIAN_SCALE)}
     
     return get_sorted_chord(pitches, registers)
-    
-
-
-    
-        
-    

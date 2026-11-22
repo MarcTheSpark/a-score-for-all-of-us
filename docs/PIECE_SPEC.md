@@ -118,3 +118,26 @@ Audience press, hold, and release for the sound to fade in, stay, and fade out. 
 ### 8.4 Phone pitch range
 
 If a pitch is lower than B3 in the notation, the phone's pitch rounds back up an octave. The upper bound for phone pitch is C7.
+
+## 9. Messages
+
+All messages are JSON objects with a "type" field.
+
+### score
+**Direction:** server → iPads
+**When:** at [Start Piece] (page 0, empty staff paper); then each time I press X
+
+| Field | Type | Notes |
+|---|---|---|
+| type | string | always "score" |
+| page | integer | page number, starting at 1; 0 = empty staff paper before the first page |
+| text | string | the text for the current page |
+| chord | list of integers | MIDI numbers, low to high, range 48–84; empty list for page 0 |
+
+**Examples:**
+```json
+{"type": "score", "page": 3, "text": "…", "chord": [50, 62, 67, 81]}
+```
+```json
+{"type": "score", "page": 0, "text": "", "chord": []}
+```
