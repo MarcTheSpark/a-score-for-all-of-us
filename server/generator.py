@@ -40,6 +40,19 @@ def make_registers():
         registers[pitch] = random.choice(allowed_octaves) # picks an octave for the pitch and store it
     return registers
         
-# print(make_registers()) 
+# print(make_registers())
+
+def votes_to_shares(votes_count: dict[str, int]):
+    """Convert Audience Votes to Shares"""
+    total = sum(votes_count.values())
+    if total == 0:
+        return None
+    shares = {}
+    for color, count in votes_count.items():
+        shares[color] = count / total
+    return shares
+
+
+    
         
     
