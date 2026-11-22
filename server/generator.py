@@ -82,7 +82,20 @@ def get_sorted_chord(pitches, registers):
         chord.append(get_midi_num(pitch, registers[pitch]))
         
     sorted_chord = sorted(chord) # hands back a sorted ver of chord notes
-    return sorted_chord  
+    return sorted_chord
+
+def generate_notes(votes_count: dict[str, int], registers: dict[str, int]):
+    """Turns audience votes count into a sorted chord of midi numbers. Called by server.py"""
+    shares = votes_to_shares(votes_count)
+    if shares is None:
+        pitches = set()
+    else:
+        pitches = choose_pitches(shares)
+        
+    if not pitches: # whether the pitches set is empty
+        pitches = {random.choice(DORIAN_SCALE)}
+    
+    return get_sorted_chord(pitches, registers)
     
 
 
