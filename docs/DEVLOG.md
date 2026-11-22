@@ -10,3 +10,10 @@ DAY ONE: SETUP
 DAY TWO: MADE QR CODE
 - set up temp index.html landing page
 - created QR code to landing page
+
+2026-11-22
+=================
+- redesign to a live-voted score
+- spec for the piece 
+- generator.py
+- the score page now draw chords without stem

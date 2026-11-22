@@ -49,7 +49,7 @@ function drawScore(message) {
         // map to keys before converting to written notes
         const trebleKeys = trebleMidi.map((n) => midiToNote(n));
         const trebleNote = new StaveNote({clef: "treble", keys: trebleKeys, 
-                                          duration: "q"});
+            duration: "q"});
         trebleNote.getStem().setVisibility(false);
         Formatter.FormatAndDraw(context, treble, [trebleNote]); 
     }
@@ -59,7 +59,7 @@ function drawScore(message) {
         // map to keys before converting to written notes
         const bassKeys = bassMidi.map((n) => midiToNote(n));
         const bassNote = new StaveNote({clef: "bass", keys: bassKeys, 
-                                        duration: "q"});
+            duration: "q"});
         bassNote.getStem().setVisibility(false);
         Formatter.FormatAndDraw(context, bass, [bassNote]);
     }
@@ -70,7 +70,14 @@ function drawScore(message) {
 VexFlow.loadFonts('Bravura', 'Academico').then(() => {
     VexFlow.setFonts('Bravura', 'Academico');
     console.log("ready");
-    drawScore({ type: "score", page: 1, text: "Test line", chord: [50, 62, 67, 81] });
+
+    const socket = new WebSocket("ws://localhost:8765");
+    socket.addEventListener("message", (event) => {
+        const message = JSON.parse(event.data);
+        if (message.type === "score") {
+            drawScore(message);
+        }
+    });
 });
 
 
