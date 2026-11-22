@@ -143,3 +143,6 @@ All messages are JSON objects with a "type" field.
 ```json
 {"type": "score", "page": 0, "text": "", "chord": []}
 ```
+```json
+{"type": "hello", "role": "score"}
+```

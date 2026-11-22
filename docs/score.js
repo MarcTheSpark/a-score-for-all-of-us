@@ -72,6 +72,9 @@ VexFlow.loadFonts('Bravura', 'Academico').then(() => {
     console.log("ready");
 
     const socket = new WebSocket("ws://localhost:8765");
+    socket.addEventListener("open", () => { // say hello
+        socket.send(JSON.stringify({ type: "hello", role: "score" }));
+    });
     socket.addEventListener("message", (event) => {
         const message = JSON.parse(event.data);
         if (message.type === "score") {

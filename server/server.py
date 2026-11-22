@@ -3,19 +3,23 @@
 
 import asyncio
 import json
-from websockets.asyncio.server import serve
+from websockets.asyncio.server import serve, broadcast
 from generator import get_registers, generate_notes
 
 REGISTERS = get_registers() # once per run: PIECE_SPEC 6.3
+score_clients = set()       # every connected score page
+current_score = {"type": "score", "page": 0, "text": "", "chord": []}   # page 0 = empty staff
 
 async def handler(websocket):
-    print("client connected")
-    chord = generate_notes({"Red": 12, "Blue": 6, "Violet": 2}, REGISTERS) # any test vote dictionary
-    text = "Hello from the server"
-    message = {"type": "score", "page": 1, "text": text, "chord": chord}
-    await websocket.send(json.dumps(message))
-    async for raw in websocket:
-        print("received:", raw)
+    hello = json.loads(await websocket.recv()) # wait for the first message
+    if hello["role"] == "score":
+        score_clients.add(websocket)
+        await websocket.send(json.dumps(current_score))  # late joiners get the current page
+    try:
+        async for raw in websocket:
+            print("received:", raw)
+    finally:
+        score_clients.discard(websocket)       # remove it when it disconnects
 
 async def main():
     async with serve(handler, "localhost", 8765) as server:
