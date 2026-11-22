@@ -30,7 +30,8 @@ HIGHEST_NOTE = 84 # C6
 def get_midi_num(pitch: str, octave: int):
     return 12 * (octave + 1) + NOTES[pitch]
 
-def make_registers():
+def get_registers():
+    """Picks an octave for each pitch and store it"""
     registers = {}
     for pitch in DORIAN_SCALE:
         allowed_octaves = []
@@ -40,7 +41,7 @@ def make_registers():
         registers[pitch] = random.choice(allowed_octaves) # picks an octave for the pitch and store it
     return registers
         
-# print(make_registers())
+# print(get_registers())
 
 def votes_to_shares(votes_count: dict[str, int]):
     """Convert Audience Votes to Shares"""
@@ -51,6 +52,28 @@ def votes_to_shares(votes_count: dict[str, int]):
     for color, count in votes_count.items():
         shares[color] = count / total
     return shares
+
+def choose_pitches(shares):
+    """Choose according to PIECE_SPEC rule 6.2, 1-4"""
+    pitches = set() # use set to avoid duplicates
+    for color, share in shares.items():
+        if share > INCLUDE_PCENT_LINE:
+            included = True
+        else:
+            included = random.random() < share
+        
+        if not included:
+            continue
+        # print(color)
+        
+        low_pitch, high_pitch = COLOR_INTERVAL_MAP[color]
+        if share > MAJORITY_PCENT_LINE:
+            if random.random() < 0.5:
+                pitches.update((low_pitch, high_pitch))
+            else: pitches.add(random.choice((low_pitch, high_pitch)))
+        else:
+            pitches.update((low_pitch, high_pitch))
+    return pitches
 
 
     
