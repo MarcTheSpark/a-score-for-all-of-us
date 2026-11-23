@@ -9,6 +9,7 @@ from pathlib import Path
 import os
 
 PORT = int(os.environ.get("PORT", 8765)) # use Render's PORT if set, otherwise port 8765
+CONSOLE_KEY = os.environ.get("CONSOLE_KEY")
 
 HERE = Path(__file__).parent # the folder this .py file lives in
 TEXT_SCORE_FILE = HERE/"text_score.txt" # joins the paths
@@ -33,13 +34,21 @@ def build_page(n, counts):
 async def handler(websocket):
     global current_score, page_number
     hello = json.loads(await websocket.recv())
+#     print("hello received:", hello, "| server key:", CONSOLE_KEY)
     role = hello["role"]
     if role == "score":
         score_clients.add(websocket)
         await websocket.send(json.dumps(current_score))
+        
     elif role == "console":
+        if CONSOLE_KEY is None or hello.get("key") != CONSOLE_KEY:
+            print("console rejected: wrong or missing key")
+            await websocket.close()
+            return
+        
         console_clients.add(websocket)
         await websocket.send(json.dumps(current_score))
+        
     try:
         async for raw in websocket:
             data = json.loads(raw)
