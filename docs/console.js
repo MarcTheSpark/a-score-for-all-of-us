@@ -37,5 +37,5 @@ document.getElementById("next").addEventListener("click", () => {
 //Go to any page
 document.getElementById("goTo").addEventListener("click", () => {
     const page = Number(document.getElementById("pageInput").value);
-    socket.send(JSON.stringify({type: "go_to_page", page: page, counts: readCounts()});
+    socket.send(JSON.stringify({type: "go_to_page", page: page, counts: readCounts()}));
 });
