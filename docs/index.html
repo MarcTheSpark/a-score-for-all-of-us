@@ -1,33 +1,58 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>A Score for All of Us</title>
-  <link rel="icon" href="data:,">
-</head>
-<body>
-  <h1>A Score for All of Us</h1>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>A Score for All of Us</title>
+        <link rel="icon" href="data:,">
+        <style>
+                .color  { width: 4rem; height: 4rem; margin: 0.3rem; border: 3px solid transparent; border-radius: 50%; }
+                .chosen { border-color: black; transform: scale(1.15); }
+        </style>
+    </head>
+    <body>
+        <h1>A Score for All of Us</h1>
 
-  <div id="joinScreen">
-      <p>Join the experience?</p>
-      <button id="yes">YES</button>
-      <button id="no">NO</button>
-  </div>
+        <div id="joinScreen">
+            <p>Join the experience?</p>
+            <button id="yes">YES</button>
+            <button id="no">NO</button>
+        </div>
 
-  <div id="declinedScreen" hidden>
-    <p>Thank you for your response! Please sit back and enjoy the performance.</p>
-  </div>
+        <div id="declinedScreen" hidden>
+            <p>Thank you for your response! Please sit back and enjoy the performance.</p>
+        </div>
 
-  <div id="waitScreen" hidden>
-    <p>You're in! The piece will begin shortly.</p>
-  </div>
+        <div id="waitScreen" hidden>
+            <p>You're in! The piece will begin shortly.</p>
+        </div>
 
-  <div id="lockedScreen" hidden>
-    <p>The piece has started. Please sit back and enjoy the performance.</p>
-  </div>
+        <div id="voteScreen" hidden>
+            <p>What color do you associate with the following sentence 
+            as it unfolds within the story you’re experiencing?
+            </p>
+            <p id="voteText"></p>
+            <p id="countdown"></p>
+            <div id="colors">
+                <button class="color" data-color="Red"    style="background:#d62828"></button>
+                <button class="color" data-color="Orange" style="background:#f77f00"></button>
+                <button class="color" data-color="Yellow" style="background:#fcbf49"></button>
+                <button class="color" data-color="Green"  style="background:#2a9d8f"></button>
+                <button class="color" data-color="Blue"   style="background:#1d4ed8"></button>
+                <button class="color" data-color="Indigo" style="background:#3a0ca3"></button>
+                <button class="color" data-color="Violet" style="background:#7b2cbf"></button>
+            </div>
+        </div>
 
-  <script src="config.js"></script>
-  <script src="audience.js"></script>
-</body>
+        <div id="listenScreen" hidden>
+            <p>Thank you! Listen -- the musicians are responding with what you just came up with...</p>
+        </div>
+
+        <div id="lockedScreen" hidden>
+            <p>Oops... The piece has started. Please sit back and enjoy the performance. Thank you!</p>
+        </div>
+
+        <script src="config.js"></script>
+        <script src="audience.js"></script>
+    </body>
 </html>
