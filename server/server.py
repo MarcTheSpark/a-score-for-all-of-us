@@ -40,7 +40,7 @@ def build_page(n, counts):
     return {"type": "score", "page": n, "text": TEXT_LINES[n - 1], "chord": chord}
 
 async def handler(websocket):
-    global current_score, page_number
+    global current_score, page_number, piece_started
     hello = json.loads(await websocket.recv())
 #     print("hello received:", hello, "| server key:", CONSOLE_KEY)
     role = hello["role"]
@@ -55,10 +55,6 @@ async def handler(websocket):
             return       
         console_clients.add(websocket)
         await websocket.send(json.dumps(current_score))
-        send_room_status()
-        
-    elif role == "console" and data["type"] == "start_piece":
-        piece_started = True
         send_room_status()
         
     elif role == "audience":
@@ -88,6 +84,10 @@ async def handler(websocket):
                 page_number = target_page
                 current_score = build_page(page_number, data["counts"])
                 broadcast(score_clients | console_clients, json.dumps(current_score))
+            
+            elif role == "console" and data["type"] == "start_piece":
+                piece_started = True
+                send_room_status()
             
     finally:
         score_clients.discard(websocket)
