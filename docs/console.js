@@ -7,6 +7,14 @@ socket.addEventListener("open", () => {
     socket.send(JSON.stringify({ type: "hello", role: "console" }));
 });
 
+socket.addEventListener("message", (event) => {
+    const message = JSON.parse(event.data);
+    if (message.type === "score") {
+        document.getElementById("status").textContent =
+            `Page ${message.page}: ${message.text}`;
+    }
+});
+
 document.getElementById("next").addEventListener("click", () => {
     const counts = {};
     for (const color of COLORS) {

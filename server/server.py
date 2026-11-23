@@ -19,6 +19,7 @@ TEXT_LINES = [line for line in raw_lines if line.strip()]   # skip blank lines a
 
 REGISTERS = get_registers() # once per run: PIECE_SPEC 6.3
 score_clients = set()       # every connected score page
+console_clients = set()
 current_score = {"type": "score", "page": 0, "text": "", "chord": []}   # page 0 = empty staff
 page_number = 0
 
@@ -28,6 +29,9 @@ async def handler(websocket):
     role = hello["role"]
     if role == "score":
         score_clients.add(websocket)
+        await websocket.send(json.dumps(current_score))
+    elif role == "console":
+        console_clients.add(websocket)
         await websocket.send(json.dumps(current_score))
     try:
         async for raw in websocket:
@@ -40,9 +44,10 @@ async def handler(websocket):
                 chord = generate_notes(data["counts"], REGISTERS)
                 current_score = {"type": "score", "page": page_number,
                                  "text": TEXT_LINES[page_number - 1], "chord": chord}
-                broadcast(score_clients, json.dumps(current_score))
+                broadcast(score_clients | console_clients, json.dumps(current_score))
     finally:
         score_clients.discard(websocket)
+        console_clients.discard(websocket)
         
 
 async def main():
