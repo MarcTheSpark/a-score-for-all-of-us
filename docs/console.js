@@ -3,6 +3,16 @@
 const COLORS = ["Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet"];
 const socket = new WebSocket(SERVER_URL);
 
+//  Read the seven color boxes into {color: count}
+function readCounts() {
+    const counts = {};
+    for (const color of COLORS) {
+        counts[color] = Number(document.getElementById(color).value);
+    }
+    
+    return counts;
+}
+
 socket.addEventListener("open", () => {
     socket.send(JSON.stringify({ type: "hello", role: "console" }));
 });
@@ -15,10 +25,17 @@ socket.addEventListener("message", (event) => {
     }
 });
 
+// X cues next page
 document.getElementById("next").addEventListener("click", () => {
     const counts = {};
     for (const color of COLORS) {
         counts[color] = Number(document.getElementById(color).value);
     }
     socket.send(JSON.stringify({ type: "next_page", counts: counts }));
+});
+
+//Go to any page
+document.getElementById("goTo").addEventListener("click", () => {
+    const page = Number(document.getElementById("pageInput").value);
+    socket.send(JSON.stringify({type: "go_to_page", page: page, counts: readCounts()});
 });
