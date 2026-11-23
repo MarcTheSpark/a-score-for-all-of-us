@@ -1,4 +1,5 @@
 import random
+from generator import get_registers, generate_notes, COLOR
 
 # CONSTANTS
 COLOR = ["Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet"]
