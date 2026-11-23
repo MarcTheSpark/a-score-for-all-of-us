@@ -1,7 +1,7 @@
 "use strict";
 
 const COLORS = ["Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet"];
-const socket = new WebSocket("ws://localhost:8765");
+const socket = new WebSocket(SERVER_URL);
 
 socket.addEventListener("open", () => {
     socket.send(JSON.stringify({ type: "hello", role: "console" }));

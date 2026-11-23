@@ -70,8 +70,11 @@ function drawScore(message) {
 VexFlow.loadFonts('Bravura', 'Academico').then(() => {
     VexFlow.setFonts('Bravura', 'Academico');
     console.log("ready");
-
-    const socket = new WebSocket("ws://localhost:8765");
+    drawScore({ type: "score", page: 0, text: "", chord: [] }); // so that I know empty page 
+                                                                // means failed loading, empty 
+                                                                // staff in next page means 
+                                                                // failed connection
+    const socket = new WebSocket(SERVER_URL);
     socket.addEventListener("open", () => { // say hello
         socket.send(JSON.stringify({ type: "hello", role: "score" }));
     });

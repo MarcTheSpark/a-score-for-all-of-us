@@ -46,7 +46,7 @@ async def handler(websocket):
         
 
 async def main():
-    async with serve(handler, "0.0.0.0", 8765) as server: # listen on every network connection this machine has 
+    async with serve(handler, "0.0.0.0", PORT) as server: # listen on every network connection this machine has 
         await server.serve_forever()
 
 asyncio.run(main())
