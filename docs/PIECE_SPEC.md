@@ -126,7 +126,7 @@ If a pitch is lower than B3 in the notation, the phone's pitch rounds back up an
 All messages are JSON objects with a "type" field.
 
 ### score
-**Direction:** server → iPads
+**Direction:** server -> iPads
 **When:** at [Start Piece] (page 0, empty staff paper); then each time I press X
 
 | Field | Type | Notes |
@@ -146,3 +146,33 @@ All messages are JSON objects with a "type" field.
 ```json
 {"type": "hello", "role": "score"}
 ```
+
+### hello
+**Direction:** any client -> server
+**When:** right after connecting, as the first message
+
+| Field | Type | Notes |
+|---|---|---|
+| type | string | always "hello" |
+| role | string | "score" (iPads), "console" (me); later "audience" (phones) |
+
+**Example:**
+```json
+{"type": "hello", "role": "score"}
+```
+
+### next_page
+**Direction:** console -> server
+**When:** I press X
+
+| Field | Type | Notes |
+|---|---|---|
+| type | string | always "next_page" |
+| counts | object | color name → number of votes; color names spelled as in generator.py ("Red", "Orange", …) |
+
+**Example:**
+```json
+{"type": "next_page", "counts": {"Red": 3, "Orange": 0, "Yellow": 0, "Green": 1, "Blue": 0, "Indigo": 0, "Violet": 0}}
+```
+
+**Server response:** builds the next page with generate_notes and broadcasts a `score` message to every score page.
