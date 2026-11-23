@@ -18,6 +18,9 @@ function drawScore(message) {
     const textElement = document.getElementById("text");
     textElement.textContent = message.text;
 
+    const pageElement = document.getElementById("page");
+    pageElement.textContent = `Page ${message.page}`;
+    
     // render + context
     const scoreDiv = document.getElementById("score");
     scoreDiv.innerHTML = ""; // clear the old score first
