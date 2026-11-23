@@ -15,7 +15,10 @@ function readCounts() {
 }
 
 socket.addEventListener("open", () => {
-    socket.send(JSON.stringify({ type: "hello", role: "console", key: CONSOLE_KEY }));
+    socket.send(JSON.stringify({ type: "hello", 
+                                 role: "console", 
+                                 key: CONSOLE_KEY 
+    }));
 });
 
 socket.addEventListener("message", (event) => {
@@ -23,16 +26,30 @@ socket.addEventListener("message", (event) => {
     if (message.type === "score") {
         document.getElementById("status").textContent =
             `Page ${message.page}: ${message.text}`;
+    } else if (message.type === "room") {
+        const state = message.started ? "started" : "open";
+        document.getElementById("room").textContent = 
+            `Joined: ${message.joined} (${state})`;
     }
+});
+
+// Start Piece: lock the room
+document.getElementById("start").addEventListener("click", () => {
+    socket.send(JSON.stringify({ type: "start_piece" }));
 });
 
 // X cues next page
 document.getElementById("next").addEventListener("click", () => {
-    socket.send(JSON.stringify({ type: "next_page", counts: readCounts() }));
+    socket.send(JSON.stringify({ type: "next_page", 
+                                 counts: readCounts() 
+    }));
 });
 
 //Go to any page
 document.getElementById("goTo").addEventListener("click", () => {
     const page = Number(document.getElementById("pageInput").value);
-    socket.send(JSON.stringify({type: "go_to_page", page: page, counts: readCounts()}));
+    socket.send(JSON.stringify({type: "go_to_page", 
+                                page: page, 
+                                counts: readCounts()
+    }));
 });

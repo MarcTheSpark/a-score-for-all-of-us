@@ -125,6 +125,13 @@ If a pitch is lower than B3 in the notation, the phone's pitch rounds back up an
 
 All messages are JSON objects with a "type" field.
 
+| Message | Direction | Meaning |
+|---|---|---|
+| hello with role: "audience" | phone -> server | sent when an audience member presses YES |
+| room | server -> console | {"type": "room", "joined": 12, "started": false} |
+| start_piece | console -> server | Composer press Start Piece | 
+| locked | server -> phone | "The piece has started," sent to a late YES from the audience |  
+
 ### score
 **Direction:** server -> iPads
 **When:** at [Start Piece] (page 0, empty staff paper); then each time I press X
@@ -155,6 +162,7 @@ All messages are JSON objects with a "type" field.
 |---|---|---|
 | type | string | always "hello" |
 | role | string | "score" (iPads), "console" (me); later "audience" (phones) |
+| key | string | console only; must match the server's CONSOLE_KEY (set on Render) |
 
 **Example:**
 ```json

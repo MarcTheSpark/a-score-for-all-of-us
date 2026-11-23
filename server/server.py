@@ -24,6 +24,14 @@ console_clients = set()     # every connected console page
 current_score = {"type": "score", "page": 0, "text": "", "chord": []}   # page 0 = empty staff
 page_number = 0
 
+audience_clients = set()    # every joined audience phone
+piece_started = False
+
+def send_room_status():
+    """Tell console how many audience members joined and whether the piece started"""
+    status = {"type": "room", "joined": len(audience_clients), "started": piece_started}
+    broadcast(console_clients, json.dumps(status))
+
 def build_page(n, counts):
     """Build the score message for page n (0 = empty staff)"""
     if n == 0:
@@ -44,10 +52,22 @@ async def handler(websocket):
         if CONSOLE_KEY is None or hello.get("key") != CONSOLE_KEY:
             print("console rejected: wrong or missing key")
             await websocket.close()
-            return
-        
+            return       
         console_clients.add(websocket)
         await websocket.send(json.dumps(current_score))
+        send_room_status()
+        
+    elif role == "console" and data["type"] == "start_piece":
+        piece_started = True
+        send_room_status()
+        
+    elif role == "audience":
+        if piece_started:
+            await websocket.send(json.dumps({"type": "locked"}))
+            await websocket.close()
+            return
+        audience_clients.add(websocket)
+        send_room_status()
         
     try:
         async for raw in websocket:
@@ -72,6 +92,8 @@ async def handler(websocket):
     finally:
         score_clients.discard(websocket)
         console_clients.discard(websocket)
+        audience_clients.discard(websocket)
+        send_room_status()
         
 
 async def main():
