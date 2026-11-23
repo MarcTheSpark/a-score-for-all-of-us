@@ -6,6 +6,9 @@ import json
 from websockets.asyncio.server import serve, broadcast
 from generator import get_registers, generate_notes
 from pathlib import Path
+import os
+
+PORT = int(os.environ.get("PORT", 8765)) # use Render's PORT if set, otherwise port 8765
 
 HERE = Path(__file__).parent # the folder this .py file lives in
 TEXT_SCORE_FILE = HERE/"text_score.txt" # joins the paths
@@ -13,7 +16,6 @@ TEXT_SCORE_FILE = HERE/"text_score.txt" # joins the paths
 # Read the text score once at startup, one page per non-blank line
 raw_lines = TEXT_SCORE_FILE.read_text(encoding="utf-8").splitlines()
 TEXT_LINES = [line for line in raw_lines if line.strip()]   # skip blank lines and remove blanks from both ends
-
 
 REGISTERS = get_registers() # once per run: PIECE_SPEC 6.3
 score_clients = set()       # every connected score page
@@ -44,7 +46,7 @@ async def handler(websocket):
         
 
 async def main():
-    async with serve(handler, "localhost", 8765) as server:
+    async with serve(handler, "0.0.0.0", 8765) as server: # listen on every network connection this machine has 
         await server.serve_forever()
 
 asyncio.run(main())

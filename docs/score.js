@@ -5,12 +5,12 @@ const { Renderer, Stave, StaveConnector, StaveNote, Formatter } = VexFlow;
 
 // Pitch letter mappings
 const LETTERS = {0: "c", 2: "d", 4: "e", 5: "f", 
-    7: "g", 9: "a", 11: "b"}
+    7: "g", 9: "a", 11: "b"};
 
 function midiToNote(midi) {
     const octave = Math.floor(midi / 12) - 1;
-    const note = LETTERS[midi % 12]
-    return `${note}/${octave}`
+    const note = LETTERS[midi % 12];
+    return `${note}/${octave}`;
 }
 
 function drawScore(message) {
@@ -82,5 +82,3 @@ VexFlow.loadFonts('Bravura', 'Academico').then(() => {
         }
     });
 });
-
-
