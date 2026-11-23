@@ -82,8 +82,27 @@ def close_vote():
     voting_open = False
     broadcast(audience_clients, json.dumps({"type": "vote_closed"}))
     send_vote_status()
-    
 # ==========================================================
+
+def reset_piece():
+    """Back to the moment before Start Piece - page 0, no vote, room open"""
+    global current_score, page_number, piece_started, REGISTERS
+    global vote_page, voting_open, choices, vote_timer
+    if vote_timer is not None:
+        vote_timer.cancel()
+        vote_timer = None
+    vote_page = 0
+    voting_open = False
+    choices = {}
+    piece_started = False
+    page_number = 0
+    REGISTERS = get_registers()   # new run -> new registers
+    current_score = build_page(0, {})
+    broadcast(score_clients | console_clients, json.dumps(current_score))
+    broadcast(audience_clients, json.dumps({"type": "reset"}))
+    send_room_status()
+    send_vote_status()
+    print("piece reset")
 
 def send_room_status():
     """Tell console how many audience members joined and whether the piece started"""
@@ -158,6 +177,9 @@ async def handler(websocket):
                 piece_started = True
                 send_room_status()
                 open_vote(1)
+                
+            elif role == "console" and data["type"] == "reset":
+                reset_piece()
                 
             # for the phone's votes    
             elif role == "audience" and data["type"] == "vote":

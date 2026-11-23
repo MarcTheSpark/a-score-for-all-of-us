@@ -52,6 +52,9 @@ document.getElementById("yes").addEventListener("click", () => {
         } else if (message.type === "vote_closed") {
             clearInterval(countdownTimer);
             showScreen("listenScreen");
+        } else if (message.type === "reset") {
+            clearInterval(countdownTimer);
+            showScreen("waitScreen");
         }
     });
 });

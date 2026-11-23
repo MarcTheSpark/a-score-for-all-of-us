@@ -49,6 +49,13 @@ document.getElementById("start").addEventListener("click", () => {
     socket.send(JSON.stringify({ type: "start_piece" }));
 });
 
+// Reset: back to before Start Piece (asks first to prevent accidental clicks)
+document.getElementById("reset").addEventListener("click", () => {
+    if (confirm("Reset the piece? Page 0, no vote, room open again.")) {
+        socket.send(JSON.stringify({ type: "reset" }));
+    }
+});
+
 // X cues next page
 document.getElementById("next").addEventListener("click", () => {
     socket.send(JSON.stringify({ type: "next_page", 
