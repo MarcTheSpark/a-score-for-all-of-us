@@ -26,10 +26,21 @@ socket.addEventListener("message", (event) => {
     if (message.type === "score") {
         document.getElementById("status").textContent =
             `Page ${message.page}: ${message.text}`;
+
     } else if (message.type === "room") {
         const state = message.started ? "started" : "open";
         document.getElementById("room").textContent = 
             `Joined: ${message.joined} (${state})`;
+
+    } else if (message.type === "voting") {
+        const state = message.open ? "OPEN" : "closed";
+        const votes = Object.entries(message.counts)
+                .map(([color, n]) => `${color} ${n}`)
+                .join(", ");
+        document.getElementById("voting").textContent =
+            `Vote for page ${message.page}: ${state}, 
+                           ${message.voted} voted (${votes})`;
+        document.getElementById("next").disabled = message.open;
     }
 });
 
@@ -41,7 +52,8 @@ document.getElementById("start").addEventListener("click", () => {
 // X cues next page
 document.getElementById("next").addEventListener("click", () => {
     socket.send(JSON.stringify({ type: "next_page", 
-                                 counts: readCounts() 
+                                 counts: readCounts(),
+                                 override: document.getElementById("override").checked
     }));
 });
 
